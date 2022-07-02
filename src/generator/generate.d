@@ -55,6 +55,14 @@ class Generator
         endOfLine();
     }
 
+    void declaration(string T)(string varName) {
+        append(T);
+        space();
+        append(varName);
+        semiColon();
+        endOfLine();
+    }
+
     void definition(T)(string varName, T value) {
         type!T;
         space();
@@ -133,7 +141,6 @@ class Generator
     void blockEnd() {
         endOfLine();
         append("}");
-        endOfLine();
     }
 
     void functionDefinitionEnd() {
@@ -145,7 +152,60 @@ class Generator
         space();
         append(value);
         semiColon();
-    } 
+    }
+
+    void structDeclarationInit(string name) {
+        append("struct");
+        space();
+        append(name);
+    }
+
+    void structDeclarationEnd() {
+        semiColon();
+        endOfLine();
+    }
+
+    void structDefinitionInit(string name) {
+        append("struct");
+        space();
+        append(name);
+    }
+
+    void structDefinitionEnd() {
+        semiColon();
+        endOfLine();
+    }
+
+    void functionArgInit() {
+        append("(");
+    }
+
+    void functionArg(T)(T value) {
+        if (is(T == string)) {
+            append("\"");
+            append(value);
+            append("\"");
+            append(", ");
+            return;
+        }
+        
+        append(to!string(value));
+        append(", ");
+    }
+
+    void functionArgEnd() {
+        pop(2);
+        append(")");
+    }
+
+    void functionCallInit(string name) {
+        append(name);
+    }
+
+    void functionCallEnd() {
+        semiColon();
+        endOfLine();
+    }
 
     string output() {
         return mProgram;

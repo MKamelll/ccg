@@ -9,35 +9,46 @@ int main()
 
     /* +++++++++++++++++++++++++++++++++++++++ */
     gen.include("stdio");
+
+    /* +++++++++++++++++++++++++++++++++++++ */
+
+    gen.structDefinitionInit("Node");
+
+        gen.blockInit();
+
+            gen.declaration!int("data");
+            gen.declaration!("struct Node*")("next");
+
+        gen.blockEnd();
+
+    gen.structDefinitionEnd();
+
+    /* +++++++++++++++++++++++++++++++++++++ */
     
-    /* +++++++++++++++++++++++++++++++++++++++ */
-    gen.declaration!int("sum");
-    gen.definition!int("i", 0);
-
-    /* ++++++++++++++++++++++++++++++++++++++ */    
-    gen.functionDeclarationInit!int("sum");
-
-    gen.functionParamsInit();
-    gen.functionParam!int("f");
-    gen.functionParam!int("s");
-    gen.functionParamsEnd();
-
-    gen.functionDeclarationEnd();
-    /* +++++++++++++++++++++++++++++++++++++ */
-
-    /* +++++++++++++++++++++++++++++++++++++ */
     gen.functionDefinitionInit!int("main");
 
     gen.functionParamsInit();
-    gen.functionParam!int("argc");
-    gen.functionParam!(char**)("argv");
+    
+        gen.functionParam!int("argc");
+        gen.functionParam!(char**)("argv");
+    
     gen.functionParamsEnd();
 
-    gen.blockInit();
-    gen.functionReturn!int(0);
-    gen.blockEnd();
+        gen.blockInit();
+
+            gen.functionCallInit("printf");
+                gen.functionArgInit();
+                    gen.functionArg!string("%s\\n");
+                    gen.functionArg!string("Hello World!");
+                gen.functionArgEnd();
+            gen.functionCallEnd();
+            
+            gen.functionReturn!int(0);
+    
+        gen.blockEnd();
 
     gen.functionDefinitionEnd();
+    
     /* ++++++++++++++++++++++++++++++++++++++ */
     
     writeln(gen.output());
